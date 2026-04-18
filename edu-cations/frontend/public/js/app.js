@@ -18,6 +18,9 @@ let state = {
 
 // ─── INIT ───────────────────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem('edu_token');
+  const savedUser = localStorage.getItem('edu_user');
+
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("navLinks");
 
@@ -26,8 +29,7 @@ window.addEventListener("DOMContentLoaded", () => {
       navLinks.classList.toggle("active");
     });
   }
-
-  // 🔥 AUTO CLOSE MENU (ye wala code)
+  
   document.querySelectorAll(".nav-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       navLinks.classList.remove("active");

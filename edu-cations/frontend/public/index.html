@@ -11,25 +11,28 @@
 <!-- NAV -->
 <nav id="navbar">
   <div class="logo" onclick="navigate('home')">EDU<span>-</span>Cations</div>
+
   
-   <div class="hamburger" id="hamburger">☰</div>
-  <div class="breadcrumb" id="breadcrumb"></div>
-  <div class="spacer"></div>
-  <div class="nav-links" id="navLinks"></div>
 
   <div class="breadcrumb" id="breadcrumb"></div>
   <div class="spacer"></div>
-  <div class="nav-links">
+
+   <div class="hamburger" id="hamburger">☰</div>
+
+  <div class="nav-links" id="navLinks">
     <button class="nav-btn" onclick="navigate('home')">Home</button>
     <button class="nav-btn" onclick="navigate('courses')">Courses</button>
+
     <div id="authButtons">
       <button class="nav-btn" onclick="openModal('loginModal')">Login</button>
       <button class="nav-btn accent" onclick="openModal('registerModal')">Sign Up</button>
     </div>
+
     <div id="userMenu" style="display:none">
       <span class="nav-user" id="navUserName"></span>
       <button class="nav-btn" onclick="logout()">Logout</button>
     </div>
+
     <button class="nav-btn admin-btn" id="adminNavBtn" style="display:none" onclick="navigate('admin')">⚙ Admin</button>
   </div>
 </nav>
