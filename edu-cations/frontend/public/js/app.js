@@ -18,18 +18,21 @@ let state = {
 
 // ─── INIT ───────────────────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem('edu_token');
-  const savedUser = localStorage.getItem('edu_user');
+  const saved = localStorage.getItem("edu_token");
+  const savedUser = localStorage.getItem("edu_user");
 
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("navLinks");
+  // 🔥 INITIAL PAGE LOAD (correct place)
+  const initialPage = location.hash.replace("#", "") || "home";
+  navigate(initialPage, false);
 
   if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
       navLinks.classList.toggle("active");
     });
   }
-  
+
   document.querySelectorAll(".nav-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       navLinks.classList.remove("active");
@@ -43,16 +46,25 @@ window.addEventListener("DOMContentLoaded", () => {
     if (state.user.role !== "admin") fetchProgress();
   }
 
-  navigate("courses");
+  
 });
 
 // ─── NAVIGATION ────────────────────────────────────────────────────────────
-function navigate(page) {
+function navigate(page, push = true) {
+  state.currentPage = page;
+
+  // 🔥 history add
+  if (push) {
+    history.pushState({ page }, "", `#${page}`);
+  }
+
   document
     .querySelectorAll(".page")
     .forEach((p) => p.classList.remove("active"));
+
   const el = document.getElementById("page-" + page);
   if (el) el.classList.add("active");
+
   updateBreadcrumb(page);
   window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -60,6 +72,13 @@ function navigate(page) {
   if (page === "admin") loadAdminStats();
 }
 
+window.onpopstate = function (event) {
+  if (event.state && event.state.page) {
+    navigate(event.state.page, false);
+  } else {
+    navigate("home", false);
+  }
+};
 function updateBreadcrumb(page) {
   const bc = document.getElementById("breadcrumb");
   let html = "";
