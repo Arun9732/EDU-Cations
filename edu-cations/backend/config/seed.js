@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const connectDB = async () => {
-  await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/edu-cations');
+  await mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://yt:D3DbToAUCFNNph0v@backend.a55kvrm.mongodb.net/edu-cations');
   console.log('✅ MongoDB Connected for seeding...');
 };
 
