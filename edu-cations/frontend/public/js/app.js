@@ -469,10 +469,29 @@ function showToast(msg, type = "") {
 
 // ─── AUTO THUMBNAIL FROM YOUTUBE URL ─────────────────────────────────────────
 function autoThumb(url) {
-  const match = url.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
-  if (match)
-    document.getElementById("avThumb").value =
-      `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg`;
+  const thumbInput = document.getElementById("avThumb");
+  const preview = document.getElementById("thumbPreview");
+
+  
+  if (!url) {
+    preview.style.display = "none";
+    thumbInput.value = "";
+    return;
+  }
+
+  const match = url.match(/(?:v=|youtu\.be\/|live\/|embed\/)([^&?/]+)/);
+
+  if (match && match[1]) {
+    const thumb = `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg`;
+
+    // 🔥 overwrite only if empty
+    if (!thumbInput.value) {
+      thumbInput.value = thumb;
+    }
+
+    preview.src = thumb;
+    preview.style.display = "block";
+  }
 }
 
 // ─── ADMIN ───────────────────────────────────────────────────────────────────

@@ -191,6 +191,8 @@
     <input type="text" id="avHandle" placeholder="YouTube handle (e.g. @PhysicsWallah)" class="auth-input"/>
     <input type="text" id="avUrl" placeholder="YouTube URL" class="auth-input" oninput="autoThumb(this.value)"/>
     <input type="text" id="avThumb" placeholder="Thumbnail URL (auto-filled from YT)" class="auth-input"/>
+    <img id="thumbPreview" 
+     style="width:100%; margin-top:10px; border-radius:12px; display:none;" />
     <input type="text" id="avTags" placeholder="Tags (comma separated)" class="auth-input"/>
     <input type="number" id="avOrder" placeholder="Order (1, 2, 3...)" class="auth-input"/>
     <div id="addVideoError" class="auth-error" style="display:none"></div>
