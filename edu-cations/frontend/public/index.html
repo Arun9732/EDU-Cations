@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EDU-Cations — Smart Learning for Class 9-12</title>
+<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo" onclick="navigate('home')">EDU<span>-</span>Cations</div>
+  <div class="breadcrumb" id="breadcrumb"></div>
+  <div class="spacer"></div>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="navigate('home')">Home</button>
+    <button class="nav-btn" onclick="navigate('courses')">Courses</button>
+    <div id="authButtons">
+      <button class="nav-btn" onclick="openModal('loginModal')">Login</button>
+      <button class="nav-btn accent" onclick="openModal('registerModal')">Sign Up</button>
+    </div>
+    <div id="userMenu" style="display:none">
+      <span class="nav-user" id="navUserName"></span>
+      <button class="nav-btn" onclick="logout()">Logout</button>
+    </div>
+    <button class="nav-btn admin-btn" id="adminNavBtn" style="display:none" onclick="navigate('admin')">⚙ Admin</button>
+  </div>
+</nav>
+
+<!-- PAGES -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">🎓 Smart Learning · Curated for India</div>
+    <h1><span class="hi">Learn Smarter,<br/></span><span class="grad">Not Harder.</span></h1>
+    <p>Class 9–12 ke liye expertly curated YouTube videos — ek hi jagah. Har chapter ke baad aapko pata hai agla step kya hai.</p>
+    <div class="cta-row">
+      <button class="cta-primary" onclick="navigate('courses')">Explore Courses →</button>
+      <button class="cta-secondary" onclick="scrollToFeatures()">How It Works</button>
+    </div>
+  </div>
+  <div class="stats" id="homeStats">
+    <div class="stat"><div class="num" id="statClasses">4</div><div class="lbl">Classes</div></div>
+    <div class="stat"><div class="num" id="statChapters">40+</div><div class="lbl">Chapters</div></div>
+    <div class="stat"><div class="num" id="statVideos">100+</div><div class="lbl">Videos</div></div>
+    <div class="stat"><div class="num">Free</div><div class="lbl">Forever</div></div>
+  </div>
+  <div class="features" id="features">
+    <div class="feat"><div class="feat-icon">🎯</div><h3>Spoon-Fed Path</h3><p>Har chapter ke baad exact next steps — no confusion, no guessing.</p></div>
+    <div class="feat"><div class="feat-icon">📺</div><h3>Best YouTube Picks</h3><p>India ke best educators ke videos — ek organised course mein.</p></div>
+    <div class="feat"><div class="feat-icon">🏆</div><h3>Creator Credits</h3><p>Har video mein creator ka full credit. Unka support karo!</p></div>
+    <div class="feat"><div class="feat-icon">📊</div><h3>Track Progress</h3><p>Login karke apna progress track karo — chapter by chapter.</p></div>
+  </div>
+  <footer>Made with ❤️ for students of India &nbsp;·&nbsp; EDU-Cations &nbsp;·&nbsp; All video credits go to respective YouTube creators</footer>
+</div>
+
+<div id="page-courses" class="page">
+  <div class="page-header">
+    <h2>Choose Your Class</h2>
+    <p>Select your class to start your curated learning journey.</p>
+  </div>
+  <div class="classes-grid" id="classesGrid">
+    <div class="loading-spinner"><div class="spinner"></div><p>Loading classes...</p></div>
+  </div>
+  <footer>All content credits belong to the original YouTube creators</footer>
+</div>
+
+<div id="page-chapters" class="page">
+  <div class="page-header">
+    <h2 id="chaptersTitle">Chapters</h2>
+    <p id="chaptersSubtitle">Select a subject and click a chapter to watch curated videos.</p>
+  </div>
+  <div class="subject-tabs" id="subjectTabs"></div>
+  <div class="chapters-grid" id="chaptersGrid"></div>
+  <footer>All content credits belong to the original YouTube creators</footer>
+</div>
+
+<div id="page-videos" class="page">
+  <div class="page-header">
+    <h2 id="videosTitle"></h2>
+    <p id="videosSubtitle"></p>
+  </div>
+  <div class="credit-notice">
+    <span class="credit-icon">🎖️</span>
+    <span>All videos are created by their respective YouTube educators. EDU-Cations only curates — please like & subscribe to support them!</span>
+  </div>
+  <div class="videos-grid" id="videosGrid"></div>
+  <div class="next-steps" id="nextSteps" style="display:none">
+    <h3>✅ Chapter Complete! Ab kya karo?</h3>
+    <ul class="next-list" id="nextList"></ul>
+    <button class="mark-complete-btn" id="markCompleteBtn" onclick="markChapterComplete()">Mark Chapter as Complete ✓</button>
+  </div>
+</div>
+
+<div id="page-admin" class="page">
+  <div class="page-header">
+    <h2>⚙ Admin Panel</h2>
+    <p>Manage classes, chapters, and videos from here.</p>
+  </div>
+  <div class="admin-stats" id="adminStats"></div>
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="showAdminTab('videos')">📹 Videos</button>
+    <button class="admin-tab" onclick="showAdminTab('chapters')">📖 Chapters</button>
+    <button class="admin-tab" onclick="showAdminTab('users')">👥 Students</button>
+  </div>
+  <div id="adminContent"></div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="auth-modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="auth-logo">EDU<span>-</span>Cations</div>
+    <h3>Welcome Back!</h3>
+    <p class="auth-sub">Login to track your progress</p>
+    <div id="loginError" class="auth-error" style="display:none"></div>
+    <input type="email" id="loginEmail" placeholder="Email address" class="auth-input"/>
+    <input type="password" id="loginPassword" placeholder="Password" class="auth-input"/>
+    <button class="auth-submit" onclick="login()">Login →</button>
+    <p class="auth-switch">Don't have an account? <a onclick="switchModal('loginModal','registerModal')">Sign Up</a></p>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal-overlay" id="registerModal">
+  <div class="auth-modal">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="auth-logo">EDU<span>-</span>Cations</div>
+    <h3>Join EDU-Cations</h3>
+    <p class="auth-sub">Free forever. No ads.</p>
+    <div id="registerError" class="auth-error" style="display:none"></div>
+    <input type="text" id="regName" placeholder="Your full name" class="auth-input"/>
+    <input type="email" id="regEmail" placeholder="Email address" class="auth-input"/>
+    <input type="password" id="regPassword" placeholder="Password (min 6 chars)" class="auth-input"/>
+    <select id="regClass" class="auth-input">
+      <option value="">Select your class (optional)</option>
+      <option value="9">Class 9</option>
+      <option value="10">Class 10</option>
+      <option value="11">Class 11</option>
+      <option value="12">Class 12</option>
+    </select>
+    <button class="auth-submit" onclick="register()">Create Account →</button>
+    <p class="auth-switch">Already have an account? <a onclick="switchModal('registerModal','loginModal')">Login</a></p>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal" onclick="closeVideoModalOutside(event)">
+  <div class="video-modal-inner">
+    <button class="modal-close" onclick="closeModal('videoModal')">✕</button>
+    <div class="video-thumb-lg">
+      <img id="vModalThumb" src="" alt=""/>
+      <div class="play-overlay">
+        <div class="play-circle-lg">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="video-modal-body">
+      <h3 id="vModalTitle"></h3>
+      <div class="vmod-meta" id="vModalMeta"></div>
+      <a id="vModalLink" class="watch-yt-btn" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.8 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+        Watch on YouTube
+      </a>
+      <div class="credit-box-modal" id="vModalCredit"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD VIDEO MODAL -->
+<div class="modal-overlay" id="addVideoModal">
+  <div class="auth-modal wide-modal">
+    <button class="modal-close" onclick="closeModal('addVideoModal')">✕</button>
+    <h3 id="addVideoTitle">Add New Video</h3>
+    <input type="hidden" id="editVideoId"/>
+    <select id="avChapter" class="auth-input" style="margin-bottom:10px"></select>
+    <input type="text" id="avTitle" placeholder="Video title" class="auth-input"/>
+    <input type="text" id="avCreator" placeholder="Creator name (e.g. Physics Wallah)" class="auth-input"/>
+    <input type="text" id="avHandle" placeholder="YouTube handle (e.g. @PhysicsWallah)" class="auth-input"/>
+    <input type="text" id="avUrl" placeholder="YouTube URL" class="auth-input" oninput="autoThumb(this.value)"/>
+    <input type="text" id="avThumb" placeholder="Thumbnail URL (auto-filled from YT)" class="auth-input"/>
+    <input type="text" id="avTags" placeholder="Tags (comma separated)" class="auth-input"/>
+    <input type="number" id="avOrder" placeholder="Order (1, 2, 3...)" class="auth-input"/>
+    <div id="addVideoError" class="auth-error" style="display:none"></div>
+    <button class="auth-submit" onclick="submitVideo()">Save Video →</button>
+  </div>
+</div>
+
+<!-- ADD CHAPTER MODAL -->
+<div class="modal-overlay" id="addChapterModal">
+  <div class="auth-modal wide-modal">
+    <button class="modal-close" onclick="closeModal('addChapterModal')">✕</button>
+    <h3 id="addChapterTitle">Add New Chapter</h3>
+    <input type="hidden" id="editChapterId"/>
+    <select id="acClass" class="auth-input"></select>
+    <input type="text" id="acSubject" placeholder="Subject (e.g. Mathematics)" class="auth-input"/>
+    <input type="text" id="acName" placeholder="Chapter name" class="auth-input"/>
+    <input type="number" id="acOrder" placeholder="Order (1, 2, 3...)" class="auth-input"/>
+    <textarea id="acNextSteps" placeholder="Next steps (one per line)" class="auth-input" rows="4" style="resize:vertical"></textarea>
+    <div id="addChapterError" class="auth-error" style="display:none"></div>
+    <button class="auth-submit" onclick="submitChapter()">Save Chapter →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
