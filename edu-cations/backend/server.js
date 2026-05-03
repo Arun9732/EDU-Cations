@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Serve static frontend files
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(path.join(__dirname, '../frontend/edu-cations-react/build')));
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -28,7 +28,7 @@ app.use('/api/admin', require('./routes/admin'));
 
 // Serve frontend for all non-API routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/edu-cations-react/build/index.html'));
 });
 
 // Error Handler
